@@ -41,9 +41,15 @@
 </div>
 <div class="row">
     <div class="col">
+        @if ($cek > 0)
+        <button id="takeabsen" class="btn btn-danger btn-block">
+            <ion-icon name="camera-outline"></ion-icon>Absen Pulang
+        </button>
+        @else
         <button id="takeabsen" class="btn btn-primary btn-block">
             <ion-icon name="camera-outline"></ion-icon>Absen Masuk
         </button>
+        @endif
     </div>
 </div>
 <div class="row mt-2">
@@ -104,11 +110,21 @@
             },
             cache:false,
             success:function(respond){
-                if(respond == 0){
-                    alert('success');
+                var status = respond.split("|");
+                if(status[0] == "success"){
+                Swal.fire({
+                    title: 'Berhasil!',
+                    text: status[1],
+                    icon: 'success',
+                })
+                setTimeout("location.href='/dashboard'",3000);
                 }else{
-                    alert('error');
-                }
+                    Swal.fire({
+                    title: 'Berhasil!',
+                    text: 'Terimakasih, Selamat Bekerja!',
+                    icon: 'success',
+                })
+             }
             }
         });
     });
