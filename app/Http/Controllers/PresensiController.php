@@ -21,7 +21,15 @@ class PresensiController extends Controller
         $nik = Auth::guard('karyawan')->user()->nik;
         $tgl_presensi = date("Y-m-d");
         $jam = date("H:i:s");
+        $latitudekantor = -3.3161157397148378;
+        $longitudekantor = 114.59749216331019;
         $lokasi = $request->lokasi;
+        $lokasiuser = explode(",", $lokasi);
+        $latitudeuser = $lokasiuser[0];
+        $longitudeuser = $lokasiuser[1];
+
+        $jarak = $this->distance($latitudekantor, $longitudekantor, $latitudeuser, $longitudeuser);
+        $radius= round($jarak["meters"]);
         $image = $request->image;
         $folderPath = "public/uploads/absensi/";
         $formatName = $nik . "-" . $tgl_presensi;
@@ -29,7 +37,11 @@ class PresensiController extends Controller
         $image_base64 = base64_decode($image_parts[1]);
         $fileName = $formatName . ".png";
         $file = $folderPath . $fileName;
+
         $cek = DB::table('presensi')->where('tgl_presensi', $tgl_presensi)->where('nik', $nik)->count();
+        if ($radius > 20){
+            echo "error|Maaf Anda Berada diluar radius, Jarak Anda " . $radius . " meter dari Kantor";
+        }else{
         if ($cek > 0) {
             $data_pulang = [
             'jam_out' => $jam,
@@ -59,6 +71,8 @@ class PresensiController extends Controller
                 echo "error|Maaf Gagal absen, Hubungi Tim IT|Out";
             }
         }
+    }
+
     }
 
       //Menghitung Jarak
