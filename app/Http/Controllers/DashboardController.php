@@ -14,11 +14,16 @@ class DashboardController extends Controller
         $bulanini = date("m");
         $tahunini = date("Y");
         $nik = Auth::guard('karyawan')->user()->nik;
+
         $presensihariini = DB::table('presensi')->where('nik', $nik)->where('tgl_presensi', $hariini)->first();
-        $historibulanini = DB::table('presensi')->whereRaw('MONTH(tgl_presensi)="'.$bulanini. '"')
-        ->whereRaw('YEAR(tgl_presensi)="' . $tahunini . '"')
-        ->orderBy('tgl_presensi')
-        ->get();
+        $historibulanini = DB::table('presensi')
+            ->where('nik', $nik)  // Menambahkan kondisi untuk NIK user yang sedang login
+            ->whereRaw('MONTH(tgl_presensi) = ?', [$bulanini])
+            ->whereRaw('YEAR(tgl_presensi) = ?', [$tahunini])
+            ->orderBy('tgl_presensi')
+            ->get();
+
         return view('dashboard.dashboard', compact('presensihariini', 'historibulanini'));
     }
 }
+

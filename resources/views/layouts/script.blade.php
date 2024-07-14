@@ -52,7 +52,6 @@
             ];
 
 
-
             var series = chart.series.push(new am4charts.PieSeries3D());
             series.dataFields.value = "litres";
             series.dataFields.category = "country";

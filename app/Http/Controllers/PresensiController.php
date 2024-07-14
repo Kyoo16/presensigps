@@ -21,8 +21,8 @@ class PresensiController extends Controller
         $nik = Auth::guard('karyawan')->user()->nik;
         $tgl_presensi = date("Y-m-d");
         $jam = date("H:i:s");
-        $latitudekantor = -3.3161157397148378;
-        $longitudekantor = 114.59749216331019;
+        $latitudekantor = -3.2952146667093785;
+        $longitudekantor = 114.58644356271301;
         $lokasi = $request->lokasi;
         $lokasiuser = explode(",", $lokasi);
         $latitudeuser = $lokasiuser[0];
@@ -38,6 +38,17 @@ class PresensiController extends Controller
         }else {
             $ket = "in";
         }
+
+        // Validasi waktu bekerja
+        $jam_masuk_mulai = strtotime("08:00:00");
+        $jam_masuk_akhir = strtotime("16:00:00");
+        $jam_sekarang = strtotime($jam);
+
+        if ($jam_sekarang < $jam_masuk_mulai || $jam_sekarang > $jam_masuk_akhir) {
+            echo "error|Anda hanya bisa absen masuk antara jam 08:00 hingga 16:00.";
+            return;
+        }
+
         $image = $request->image;
         $folderPath = "public/uploads/absensi/";
         $formatName = $nik . "-" . $tgl_presensi . "-" . $ket;
@@ -79,7 +90,6 @@ class PresensiController extends Controller
             }
         }
     }
-
     }
 
       //Menghitung Jarak
