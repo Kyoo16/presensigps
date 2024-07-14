@@ -34,10 +34,19 @@
                 <img src="assets/img/login/logopoliban.png" alt="image" class="form-image">
             </div>
             <div class="section mt-1">
-                <h1>E-Prensei</h1>
+                <h1>E-Presensi</h1>
                 <h4>Silahkan login</h4>
             </div>
             <div class="section mt-1 mb-5">
+                @php
+                    $messagewarning = Session::get('warning');
+                @endphp
+                @if (Session::get('warning'))
+                <div class="alert alert-outline-warning">
+                    {{ $messagewarning }}
+                </div>
+
+                @endif
                 <form action="/proseslogin" method="POST">
                     @csrf
                     <div class="form-group boxed">
