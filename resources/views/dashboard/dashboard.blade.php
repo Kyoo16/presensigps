@@ -173,11 +173,11 @@
                     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 }).addTo(map);
 
-                var circle = L.circle([lat, lon], {
+                var circle = L.circle([-3.295706079276831, 114.58193378493202], {
                     color: 'red',
                     fillColor: '#f03',
                     fillOpacity: 0.5,
-                    radius: 20
+                    radius: 100
                 }).addTo(map);
 
                 // Menambahkan marker pada lokasi pengguna

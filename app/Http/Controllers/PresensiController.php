@@ -21,8 +21,8 @@ class PresensiController extends Controller
         $nik = Auth::guard('karyawan')->user()->nik;
         $tgl_presensi = date("Y-m-d");
         $jam = date("H:i:s");
-        $latitudekantor = -3.2952146667093785;
-        $longitudekantor = 114.58644356271301;
+        $latitudekantor = -3.295706079276831;
+        $longitudekantor = 114.58193378493202;
         $lokasi = $request->lokasi;
         $lokasiuser = explode(",", $lokasi);
         $latitudeuser = $lokasiuser[0];
